@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Beautify
 // @namespace    https://github.com/symant233/PublicTools
-// @version      0.0.33
+// @version      0.0.35
 // @description  美化<误>各网页界面
 // @author       symant233
 // @icon         https://cdn.jsdelivr.net/gh/symant233/PublicTools/Beautify/Bkela.png
@@ -43,6 +43,8 @@
 // @match        https://*sci-hub.*/*
 // @match        https://scholar.google.com/scholar?q=*
 // @match        https://www.dlsite.com/*
+// @match        https://preactjs.com/*
+// @match        https://reactjs.org/*
 // @grant        GM_addStyle
 // @license      GPL-3.0
 // @homepageURL  https://greasyfork.org/zh-CN/scripts/390421-beautify
@@ -419,6 +421,21 @@
             break;
         case 'www.dlsite.com':
             GM_addStyle('h1#work_name{user-select: all !important;}');
+            break;
+        case 'preactjs.com':
+            GM_addStyle(`
+                header > div[class^='banner'] , header > a[class^='corner'] { display: none !important; }
+                #app > main { padding-top: 3.5rem; }
+                #app > main > div[class^=tutorial] { top: 3.5rem; }
+                #app > main > div[class^=repl] { top: 3.5rem; }
+            `);
+            break;
+        case 'reactjs.org':
+            function zh() {
+                let url = location.href.replace('://react', '://zh-hans.react');
+                location.href = url;
+            } // 跳转到中文对应页面
+            document.querySelector('a[href="/languages"]').addEventListener("click", zh);
             break;
         default:
             break;
